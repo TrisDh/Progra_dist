@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  random-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.random
+    container_name: random-service
+    ports:
+      - "5000:5000"
+    networks:
+      - dice-network
+
+  sum-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.sum
+    container_name: sum-service
+    ports:
+      - "5001:5001"
+    depends_on:
+      - random-service
+    networks:
+      - dice-network
+
+networks:
+  dice-network:
+    driver: bridge
